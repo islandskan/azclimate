@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: "Climate Flask Swagger API"
+  description: "Registering Temperature and Air Humidity"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    ClimateData:
+      type: "object"
+      required:
+        - station
+        - temp
+        - humid
+      properties:
+        station:
+          type: "string"
+        temp:
+          type: "string"
+        humid:
+          type: "string"
+paths:
+  /all:
+    get:
+      operationId: "climate.read_all"
+      tags:
+        - "Climate"
+      summary: "Read the climate registrations"
+      responses:
+        "200":
+          description: "Successfully read climate list"
+    delete:
+      operationId: "climate.delete_all"
+      tags:
+        - "Climate"
+      summary: "Return the climate registrations and empty it"
+      responses:
+        "200":
+          description: "Successfully read and deleted climate list"
+  /reg:
+    put:
+      operationId: "climate.register"
+      tags:
+        - ClimateData
+      summary: "Register a station/temp/humid for a station"
+      requestBody:
+          description: "Registration station/temp/humid to create"
+          required: True
+          content:
+            application/json:
+              schema:
+                x-body-name: "climateData"
+                $ref: "#/components/schemas/ClimateData"
+      responses:
+        "201":
+          description: "Successfully created registration"
